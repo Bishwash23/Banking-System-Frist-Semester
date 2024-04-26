@@ -51,21 +51,38 @@ def update_staff_details():
         
         # Open file in write mode to update staff details
         with open(filename, "w") as file:
+            updated_staff = False
             for line in lines:
                 if line.strip().startswith("Username:"):
                     saved_username = line.split(":")[1].strip()
                     if saved_username == staff_username:
+                        file.write(line)  # Write unchanged username
+                        
                         # Update email if provided
                         if new_email:
-                            line = f"Email: {new_email}\n"
-                        # Update password if provided
+                            file.write(f"Email: {new_email}\n")
+                        else:
+                            # Retain the old email
+                            file.write(line)  # Write unchanged email
+                            
+                        # Update password if provided   
                         if new_password:
-                            line = f"Password: {new_password}\n"
-                file.write(line)
+                            file.write(f"Password: {new_password}\n")
+                        else:
+                            # Retain the old password
+                            file.write(line)  # Write unchanged password
+                            
+                        updated_staff = True
+                    else:
+                        file.write(line)  # Write unchanged details of other staff members
+                elif updated_staff:
+                    updated_staff = False
+                    continue  # Skip writing subsequent lines after updating email or password
+                else:
+                    file.write(line)  # Write unchanged details of other staff members
         
         # Print confirmation message
         print("\nStaff details updated successfully!")
         print_date_time() # function to print date and time
     else:
         print("Error: Staff username not found.")
-
