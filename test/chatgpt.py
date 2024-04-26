@@ -1,88 +1,53 @@
-def update_staff_details():
-    print("\nUpdating staff details...\n")
-    filename = STAFF
-    
-    # Authenticate admin staff
-    while True:
-        username_staff = input("Enter Admin Staff Username: ")
-        password_staff = input("Enter Admin Staff Password: ")
-        if login_admin_staff(username_staff, password_staff):
-            print("Login successful.")
-            break
-        else:
-            print("Invalid username or password.")
-            print("Re-enter username and password.")
-            continue
-    
-    # Prompt for staff username to update
-    staff_username = input("Enter the username of the staff to update: ")
-    
-    # Check if the staff username exists
-    if not username_available(filename, staff_username):
-        # Initialize variables to store new details
-        new_email = None
-        new_password = None
-        
-        # Prompt for new email (if needed)
-        while True:
-            new_email = input("Enter new email (leave blank to keep current): ")
-            if new_email == "":
-                break
-            elif not validate_email(new_email):
-                print("Error: Invalid email format.")
-                continue
-            elif not email_available(filename, new_email) and new_email != staff_username:
-                print("Error: Email already exists.")
-                continue
-            else:
-                break
-        
-        # Prompt for new password (if needed)
-        while True:
-            new_password = input("Enter new password (leave blank to keep current): ")
-            if new_password == "":
-                break
-            else:
-                break
-        
-        # Read existing staff details from file
-        with open(filename, "r") as file:
-            lines = file.readlines()
-        
-        # Open file in write mode to update staff details
-        with open(filename, "w") as file:
-            updated_staff = False
-            for line in lines:
-                if line.strip().startswith("Username:"):
-                    saved_username = line.split(":")[1].strip()
-                    if saved_username == staff_username:
-                        file.write(line)  # Write unchanged username
-                        
-                        # Update email if provided
-                        if new_email:
-                            file.write(f"Email: {new_email}\n")
-                        else:
-                            # Retain the old email
-                            file.write(line)  # Write unchanged email
-                            
-                        # Update password if provided   
-                        if new_password:
-                            file.write(f"Password: {new_password}\n")
-                        else:
-                            # Retain the old password
-                            file.write(line)  # Write unchanged password
-                            
-                        updated_staff = True
-                    else:
-                        file.write(line)  # Write unchanged details of other staff members
-                elif updated_staff:
-                    updated_staff = False
-                    continue  # Skip writing subsequent lines after updating email or password
-                else:
-                    file.write(line)  # Write unchanged details of other staff members
-        
-        # Print confirmation message
-        print("\nStaff details updated successfully!")
-        print_date_time() # function to print date and time
+def update_customer_details(customer_id, filename):
+    print("\nUpdating customer details...\n")
+
+    # Read existing customer details from the file
+    with open(filename, 'r') as file:
+        lines = file.readlines()
+
+    updated = False  # Flag to track if any details were updated
+
+    # Open file in write mode to update customer details
+    with open(filename, 'w') as file:
+        i = 0
+        while i < len(lines):
+            # Check if the line contains the details of the customer with the given Customer ID
+            if lines[i].strip().startswith("Customer ID: ") and lines[i].split(":")[1].strip() == str(customer_id):
+                # Update the email, account type, password, and balance
+                new_email = input("Enter new email (leave blank to keep current): ")
+                new_account_type = input("Enter new account type (leave blank to keep current): ").lower()
+                new_password = input("Enter new password (leave blank to keep current): ")
+                new_balance = input("Enter new balance (leave blank to keep current): ")
+
+                # Find the line numbers of relevant details
+                email_index = i + 1
+                account_type_index = i + 2
+                password_index = i + 3
+                balance_index = i + 4
+
+                # Update the email if provided
+                if new_email != "":
+                    lines[email_index] = f"Email: {new_email}\n"
+
+                # Update the account type if provided
+                if new_account_type != "":
+                    lines[account_type_index] = f"Account Type: {new_account_type}\n"
+
+                # Update the password if provided
+                if new_password != "":
+                    lines[password_index] = f"Password: {new_password}\n"
+
+                # Update the balance if provided
+                if new_balance != "":
+                    lines[balance_index] = f"Balance: {new_balance}\n"
+
+                updated = True  # Set the flag to True indicating that details were updated
+            # Write the line back to the file
+            file.write(lines[i])
+            i += 1
+
+    if updated:
+        print("Customer details updated successfully.")
     else:
-        print("Error: Staff username not found.")
+        print("Customer not found. No details were updated.")
+    print_date_time()

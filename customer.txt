@@ -9,10 +9,10 @@ Balance: 100
 
 Customer ID: 1001
 Name: dipen
-Email: dksa.@
+Email: bishwash23@gmail.com
 Date of Birth: 2003-01-23
 Account Type: saving
 Account Number: 1000000001
-Password: abc@2003-01-23
+Password: dipen@
 Balance: 100
 
