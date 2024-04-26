@@ -193,7 +193,7 @@ def create_staff_account():
     print("\nDate:", current_time.strftime("%Y-%m-%d"))
     print("Time:", current_time.strftime("%I:%M:%S %p"))
 
-create_staff_account()
+
 # Function to authenticate staff account
 def login_staff(username, password):
     filename = STAFF
