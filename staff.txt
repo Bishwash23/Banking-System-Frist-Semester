@@ -1,19 +1,15 @@
 Name: bish
 Username: bhish
-Username: bhish
 Email: kjdsaf.@
 Password: fj
 
 Name: dip
-Username: dipen
 Username: dipen
 Email: bip@.com
 Password: hj
 
 Name: gh
 Username: sdfk
-Email: jk@.
-Password: fjs
 Email: sdfk@gmail.com
 Password: sdfk@
 
