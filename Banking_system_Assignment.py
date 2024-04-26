@@ -1,7 +1,7 @@
 # Group members 1 tasks
 
 import os
-from datetime import date, datetime
+from datetime import datetime
 
 # Get the current date and time
 current_time = datetime.now()
