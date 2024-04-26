@@ -5,6 +5,7 @@ Date of Birth: 2003-11-09
 Account Type: saving
 Account Number: 1000000000
 Password: abc@2003-11-09
+Balance: 100
 
 Customer ID: 1001
 Name: dipen
@@ -13,4 +14,5 @@ Date of Birth: 2003-01-23
 Account Type: saving
 Account Number: 1000000001
 Password: abc@2003-01-23
+Balance: 100
 

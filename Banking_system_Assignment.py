@@ -12,6 +12,10 @@ ADMIN_STAFF = "admin_staff.txt"
 STAFF = "staff.txt"
 CUSTOMER = "customer.txt"
 
+# Minimum balance for customer accounts in RM
+MIN_SAVING = 100
+MIN_CURRENT = 500
+
 # Function to print date and time
 def print_date_time():
     print("\nDate:", current_time.strftime("%Y-%m-%d"))
@@ -279,19 +283,8 @@ def default_password(date_of_birth):
     return password
     
 # Function to save customer details with unique identifiers (Customer ID and Account Number) after staff authentication
-def save_customer_details(filename, name, email, date_of_birth, account_type):
+def save_customer_details(filename, name, email, date_of_birth, account_type, balance):
     print("\nLogin into Staff Account to save customer details.\n")
-    
-    while True:
-        username_staff = input("Enter Username: ")
-        password_staff = input("Enter Password: ")
-        if login_staff(username_staff, password_staff):
-            print("Login successful.")
-            break
-        else:
-            print("Invalid username or password.")
-            print("Re-enter username and password.")
-            continue
     
     # Generate unique Customer ID and Account Number
     customer_id = generate_unique_customer_id(filename)
@@ -301,7 +294,7 @@ def save_customer_details(filename, name, email, date_of_birth, account_type):
     
     # Write customer details to file
     with open(filename, 'a') as file:
-        file.write(f"Customer ID: {customer_id}\nName: {name}\nEmail: {email}\nDate of Birth: {date_of_birth}\nAccount Type: {account_type}\nAccount Number: {account_number}\nPassword: {password}\n\n")
+        file.write(f"Customer ID: {customer_id}\nName: {name}\nEmail: {email}\nDate of Birth: {date_of_birth}\nAccount Type: {account_type}\nAccount Number: {account_number}\nPassword: {password}\nBalance: {balance}\n\n")
     
     # Print confirmation message
     print("\nCustomer details saved successfully!")
@@ -348,6 +341,17 @@ def register_customer():
         else:
             break
     
+    # Initialize balance with a default value
+    balance = 0
+    
+    # Set initial balance based on account type
+    if account_type == "saving":
+        balance = MIN_SAVING
+        
+    elif account_type == "current":
+        balance = MIN_CURRENT
+        
+    
     # Print confirmation message
     print("\nCustomer registered successfully.")
     print("Name:", name)
@@ -355,7 +359,7 @@ def register_customer():
     print("Date of Birth:", date_of_birth)
     print("Account Type:", account_type)
     print_date_time() # function to print date and time
-    save_customer_details(filename, name, email, date_of_birth, account_type)
+    save_customer_details(filename, name, email, date_of_birth, account_type, balance)
 
 # Function to update staff details
 def update_staff_details():
