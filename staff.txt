@@ -1,7 +1,7 @@
 Name: bish
 Username: bhish
-Email: kjdsaf.@
-Password: fj
+Email: newemail@example.com
+Password: newpassword123
 
 Name: dip
 Username: dipen
@@ -10,6 +10,6 @@ Password: hj
 
 Name: gh
 Username: sdfk
-Email: sdfk@gmail.com
-Password: sdfk@
+Email: gh@gmail.com
+Password: newpassword123
 
