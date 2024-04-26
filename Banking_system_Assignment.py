@@ -1,7 +1,7 @@
 # Group members 1 tasks
 
 import os
-from datetime import datetime
+from datetime import date, datetime
 
 # Get the current date and time
 current_time = datetime.now()
@@ -11,6 +11,11 @@ SUPER_USER = "super_user.txt"
 ADMIN_STAFF = "admin_staff.txt"
 STAFF = "staff.txt"
 CUSTOMER = "customer.txt"
+
+# Function to print date and time
+def print_date_time():
+    print("\nDate:", current_time.strftime("%Y-%m-%d"))
+    print("Time:", current_time.strftime("%I:%M:%S %p"))
 
 # Function to create a default Super User Account
 def create_super_user():
@@ -59,6 +64,9 @@ def username_available(filename, username):
 
 # Check email already exists or not
 def email_available(filename, email):
+    if not os.path.exists(filename):
+        with open(filename, 'w'):
+            pass
     with open(filename, 'r') as file:
         for line in file:
             if line.strip().startswith("Email: "):
@@ -118,9 +126,7 @@ def create_admin_staff():
     print("Username:", admin_staff_data['username'])
     print("Email:", admin_staff_data['email'])
     print("Password:", admin_staff_data['password'])
-    # Print date and time
-    print("\nDate:", current_time.strftime("%Y-%m-%d"))
-    print("Time:", current_time.strftime("%I:%M:%S %p"))
+    print_date_time() # function to print date and time
 
 # Function to authenticate admin staff account
 def login_admin_staff(username, password):
@@ -189,9 +195,7 @@ def create_staff_account():
     print("Username:", staff_data['username'])
     print("Email:", staff_data['email'])
     print("Password:", staff_data['password'])
-    # Print date and time
-    print("\nDate:", current_time.strftime("%Y-%m-%d"))
-    print("Time:", current_time.strftime("%I:%M:%S %p"))
+    print_date_time() # function to print date and time
 
 
 # Function to authenticate staff account
@@ -215,4 +219,144 @@ def login_staff(username, password):
             return True
 
     return False
+
+# Function to calculate age
+def calculate_age(dob):
+    today = datetime.today()
+    dob = datetime.strptime(dob, "%Y-%m-%d")
+    age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
+    return age
+
+# Function to generate unique Customer ID
+def generate_unique_customer_id(filename):
+    # Initialize counter
+    customer_counter = 1
+    
+    # Read existing customer IDs from the file and update the counter if necessary
+    if os.path.exists(filename):
+        with open(filename, 'r') as file:
+            for line in file:
+                if line.strip().startswith("Customer ID:"):
+                    # Extract existing customer ID and update counter
+                    existing_customer_id = line.split(":")[1].strip()
+                    existing_customer_counter = int(existing_customer_id)
+                    customer_counter = max(customer_counter, existing_customer_counter + 1)
+
+    # Generate a new unique customer ID
+    unique_customer_id = customer_counter
+    
+    # Increment the counter for the next customer
+    customer_counter += 1
+
+    return unique_customer_id
+
+# Function to generate unique Account Number
+def generate_unique_account_number(filename):
+    # Initialize counter
+    account_counter = 1
+    
+    # Read existing account numbers from the file and update the counter if necessary
+    if os.path.exists(filename):
+        with open(filename, 'r') as file:
+            for line in file:
+                if line.strip().startswith("Account Number:"):
+                    # Extract existing account number and update counter
+                    existing_account_number = line.split(":")[1].strip()
+                    existing_account_counter = int(existing_account_number)
+                    account_counter = max(account_counter, existing_account_counter + 1)
+
+    # Generate a new unique account number
+    unique_account_number = account_counter
+    
+    # Increment the counter for the next account
+    account_counter += 1
+
+    return unique_account_number
+
+# Function to generate a default password
+def default_password(date_of_birth):
+    password = "abc@" + date_of_birth
+    return password
+    
+# Function to save customer details with unique identifiers (Customer ID and Account Number) after staff authentication
+def save_customer_details(filename, name, email, date_of_birth, account_type):
+    print("\nLogin into Staff Account to save customer details.\n")
+    
+    while True:
+        username_staff = input("Enter Username: ")
+        password_staff = input("Enter Password: ")
+        if login_staff(username_staff, password_staff):
+            print("Login successful.")
+            break
+        else:
+            print("Invalid username or password.")
+            print("Re-enter username and password.")
+            continue
+    
+    # Generate unique Customer ID and Account Number
+    customer_id = generate_unique_customer_id(filename)
+    account_number = generate_unique_account_number(filename)
+    
+    password = default_password(date_of_birth)
+    
+    # Write customer details to file
+    with open(filename, 'a') as file:
+        file.write(f"Customer ID: {customer_id}\nName: {name}\nEmail: {email}\nDate of Birth: {date_of_birth}\nAccount Type: {account_type}\nAccount Number: {account_number}\nPassword: {password}\n\n")
+    
+    # Print confirmation message
+    print("\nCustomer details saved successfully!")
+    print("Customer ID:", customer_id)
+    print("Account Number:", account_number)
+    print("Password:", password)
+    print_date_time() # function to print date and time
+
+# Function to register customers
+def register_customer():
+    print("\nRegistering customer...\n")
+    filename = CUSTOMER
+    name = input("Enter Name: ")
+    
+    # Validate and get a unique email
+    while True:
+        email = input("Enter Email: ")
+        if not email_available(filename, email):
+            print("Error: Email already exists.")
+            continue
+        elif not validate_email(email):
+            print("Error: Invalid email format.")
+            continue
+        else:
+            break
+    
+    date_of_birth = input("Enter Date of Birth in AD (YYYY-MM-DD): ")
+    
+    # Calculate age
+    age = calculate_age(date_of_birth)
+    
+    # Check if age is below 18
+    if age < 18:
+        print("Age is below 18. Not eligible to create an account.")
+        return
+    
+    while True:
+        account_type = input("Enter Account Type (Saving/Current): ").lower()
+    
+        # Validate account type
+        if account_type not in ["saving", "current"]:
+            print("Error: Invalid account type. Please enter 'Saving' or 'Current'.")
+            continue
+        else:
+            break
+    
+    # Print confirmation message
+    print("\nCustomer registered successfully.")
+    print("Name:", name)
+    print("Email:", email)
+    print("Date of Birth:", date_of_birth)
+    print("Account Type:", account_type)
+    print_date_time() # function to print date and time
+    save_customer_details(filename, name, email, date_of_birth, account_type)
+
+register_customer()
+
 

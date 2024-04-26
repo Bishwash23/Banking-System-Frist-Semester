@@ -1,0 +1,16 @@
+Customer ID: 1000
+Name: Bishwash
+Email: bishwash@23gmail.com
+Date of Birth: 2003-11-09
+Account Type: saving
+Account Number: 1000000000
+Password: abc@2003-11-09
+
+Customer ID: 1001
+Name: dipen
+Email: dksa.@
+Date of Birth: 2003-01-23
+Account Type: saving
+Account Number: 1000000001
+Password: abc@2003-01-23
+
