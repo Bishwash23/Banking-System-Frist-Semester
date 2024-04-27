@@ -224,6 +224,38 @@ def login_staff(username, password):
 
     return False
 
+# Function to delete staff account
+def delete_staff_account():
+    filename = STAFF
+    print("\nDeleting staff account...\n")
+    
+    # Prompt for staff username to delete
+    username = input("Enter the username of the staff to delete: ")
+
+    # Check if staff username exists
+    if not username_available(filename, username):
+        # Read existing staff details from the file
+        with open(filename, 'r') as file:
+            lines = file.readlines()
+        
+        # Open file in write mode to delete staff details
+        with open(filename, 'w') as file:
+            i = 0
+            while i < len(lines):
+                # Check if the line contains the details of the staff member with the given username
+                if lines[i].strip().startswith("Username: ") and lines[i].split(":")[1].strip() == username:
+                    # Skip the details of the staff member to delete
+                    i += 5
+                    continue
+                # Write the line back to the file
+                file.write(lines[i])
+                i += 1
+        
+        print("Staff account deleted successfully.")
+    else:
+        print("Staff member not found. No account was deleted.")
+    print_date_time()
+
 # Function to calculate age
 def calculate_age(dob):
     today = datetime.today()
@@ -758,7 +790,10 @@ def generate_statement_of_account_report(account_number, start_date, end_date):
 # Menu for login
 while True:
     # Displaying main menu options
-    print("1. Customer Login")
+    print("\n\t\t===========================")
+    print("\t\t===== WELCOME TO MBSS =====")
+    print("\t\t===========================")
+    print("\n1. Customer Login")
     print("2. Customer Register")
     print("3. Advanced")
     print("4. Exit")  # Option to exit the program
@@ -770,7 +805,10 @@ while True:
     if choice == "1":  # Customer login
         while True:
             # Displaying login options
-            print("1. Login")
+            print("\n\t\t======================")
+            print("\t\t===== LOGIN MENU =====")
+            print("\t\t======================")
+            print("\n1. Login")
             print("2. Exit")
             choice = input("\nEnter your choice: ")
             
@@ -798,7 +836,10 @@ while True:
                         continue
                     while True:
                         # Displaying customer operation options
-                        print("1. Deposit")
+                        print("\n\t\t=========================")
+                        print("\t\t===== CUSTOMER MENU =====")
+                        print("\t\t=========================")
+                        print("\n1. Deposit")
                         print("2. Withdrawal")
                         print("3. Change password")
                         print("4. Generate Statement")
@@ -806,12 +847,16 @@ while True:
                         choice = input("\nEnter your choice: ")
                         
                         if choice == "1":  # Deposit money
-                            print("\nDeposit...")
+                            print("\n\t\t========================")
+                            print("\t\t===== DEPOSIT MENU =====")
+                            print("\t\t========================")
                             deposited_amount = input("\nEnter amount to deposit: ")
                             deposit_money(account_number, deposited_amount)
                             continue
                         elif choice == "2":  # Withdraw money
-                            print("\nWithdrawal...")
+                            print("\n\t\t=========================")
+                            print("\t\t===== WITHDRAW MENU =====")
+                            print("\t\t=========================")
                             withdrawn_amount = input("\nEnter amount to withdraw: ")
                             withdraw_money(account_number, withdrawn_amount)
                             continue
@@ -823,7 +868,9 @@ while True:
                             print("Your new password is:", new_password)
                             continue
                         elif choice == "4":  # Generate statement
-                            print("\nGenerate statement...")
+                            print("\n\t\t=====================")
+                            print("\t\t===== STATEMENT =====")
+                            print("\t\t=====================")
                             start_date = input("\nEnter start date (YYYY-MM-DD): ")
                             end_date = input("Enter end date (YYYY-MM-DD): ")
                             report = generate_statement_of_account_report(account_number, start_date, end_date)
@@ -844,11 +891,81 @@ while True:
             else:
                 print("Invalid choice. Please try again.")
                 continue
-    elif choice == '4':  # User wants to exit the program
+    elif choice == '2': # Customer Register
+        register_customer()
+        continue
+    elif choice == '3':  # Advanced features
+        while True:
+            # Displaying advanced options
+            print("\n\t\t========================")
+            print("\t\t===== ADVANCE MENU =====")
+            print("\t\t========================")
+            print("\n1. Super Admin Login")
+            print("2. Admin Staff Login")
+            print("3. Exit")
+            choice = input("\nEnter your choice: ")
+            
+            if choice == '1':  # Super admin login
+                print("\n\t\t===================================")
+                print("\t\t===== SUPER ADMIN LOGIN MENU =====")
+                print("\t\t===================================")
+                username = input("\nEnter Super Admin Username: ")
+                password = input("Enter Super Admin Password: ")
+                if login_super_user(username, password):
+                    print("\nSuper Admin Login...")
+
+                    while True:
+                        print("\n\t\t============================")
+                        print("\t\t===== SUPER ADMIN MENU =====")
+                        print("\t\t============================")
+                        print("\n1. Create a new Admin account")
+                        print("2. Exit")
+                        choice = input("\nEnter your choice: ")
+                        
+                        if choice == '1':  # Create a new admin account
+                            create_admin_staff()
+                            continue
+                        elif choice == '2':  # Exit
+                            print("Logging out...")
+                            break
+                        else:
+                            print("Invalid choice. Please try again.")
+                            continue
+            elif choice == '2':  # Admin staff login
+                print("\n\t\t============================")
+                print("\t\t===== ADMIN LOGIN MENU =====")
+                print("\t\t============================")
+                username = input("\nEnter Admin Staff Username: ")
+                password = input("Enter Admin Staff Password: ")
+                if login_admin_staff(username, password):
+                    while True:
+                        print("\n\t\t======================")
+                        print("\t\t===== ADMIN MENU =====")
+                        print("\t\t======================")
+                        print("\n1. Create a new Staff account")
+                        print("2. Edit Staff account")
+                        print("3. Edit customer account")
+                        print("4. Exit")
+                        choice = input("\nEnter your choice: ")
+                        
+                        if choice == '1':  # Create a new staff account
+                            create_staff_account()
+                            continue
+                        elif choice == '2': # Edit Staff account
+                            update_staff_details()
+                            continue
+                        elif choice == '3':  # Edit customer account
+                            update_customer_details()
+                            continue
+                        elif choice == '4':  # Exit
+                            break
+                        else:
+                            print("Invalid choice. Please try again.")
+                            continue
+    elif choice == '4':  # Exit the program
         print("Exiting the program...")
         break
     else:
         print("Invalid choice. Please try again.")
         continue
 
-    
