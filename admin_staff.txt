@@ -1,10 +1,10 @@
-Name: Bishwash Bhattarai
 Username: bishwash
+Name: Bishwash Bhattarai
 Email: bishwash23@gmail.com
 Password: bish
 
-Name: Dipen
 Username: dip
+Name: Dipen
 Email: dipen@gmail.com
 Password: dipen
 

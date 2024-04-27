@@ -1,27 +1,27 @@
 Customer ID: 1000
+Account Number: 1000000000
 Name: Bishwash
 Email: bishwash@23gmail.com
 Date of Birth: 2003-11-09
 Account Type: saving
-Account Number: 1000000000
 Password: abc@2003-11-09
-Balance: 1100
+Balance: 100
 
 Customer ID: 1001
+Account Number: 1000000001
 Name: dipen
 Email: dipen23@gmail.com
 Date of Birth: 2003-01-23
 Account Type: saving
-Account Number: 1000000001
 Password: dipen@
-Balance: 200
+Balance: 100
 
 Customer ID: 1002
+Account Number: 1000000002
 Name: bishwash
 Email: bish3@gmail.com
 Date of Birth: 2001-2-3
 Account Type: saving
-Account Number: 1000000002
 Password: abc@2001-2-3
 Balance: 100
 
