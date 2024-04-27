@@ -321,23 +321,23 @@ def save_customer_details(filename, name, email, date_of_birth, account_type, ba
     username = input("Enter Staff username: ")
     password = input("Enter Staff password: ")
     
-    login_staff(username, password)
-    # Generate unique Customer ID and Account Number
-    customer_id = generate_unique_customer_id(filename)
-    account_number = generate_unique_account_number(filename)
-    
-    password = default_password(date_of_birth)
-    
-    # Write customer details to file
-    with open(filename, 'a') as file:
-        file.write(f"Customer ID: {customer_id}\nName: {name}\nEmail: {email}\nDate of Birth: {date_of_birth}\nAccount Type: {account_type}\nAccount Number: {account_number}\nPassword: {password}\nBalance: {balance}\n\n")
-    
-    # Print confirmation message
-    print("\nCustomer details saved successfully!")
-    print("Customer ID:", customer_id)
-    print("Account Number:", account_number)
-    print("Password:", password)
-    print_date_time() # function to print date and time
+    if not login_staff(username, password):
+        # Generate unique Customer ID and Account Number
+        customer_id = generate_unique_customer_id(filename)
+        account_number = generate_unique_account_number(filename)
+        
+        password = default_password(date_of_birth)
+        
+        # Write customer details to file
+        with open(filename, 'a') as file:
+            file.write(f"Customer ID: {customer_id}\nName: {name}\nEmail: {email}\nDate of Birth: {date_of_birth}\nAccount Type: {account_type}\nAccount Number: {account_number}\nPassword: {password}\nBalance: {balance}\n\n")
+        
+        # Print confirmation message
+        print("\nCustomer details saved successfully!")
+        print("Customer ID:", customer_id)
+        print("Account Number:", account_number)
+        print("Password:", password)
+        print_date_time() # function to print date and time
 
 # Function to register customers
 def register_customer():
