@@ -567,6 +567,54 @@ def login_customer(account_number, password):
             return True
     return False
 
+# Function to delete customer account
+def delete_customer_account(account_number):
+    customer_filename = CUSTOMER
+    transaction_filename = TRANSACTION_FILE
+
+    # Remove customer details from the customer file
+    with open(customer_filename, 'r') as customer_file:
+        lines = customer_file.readlines()
+
+    with open(customer_filename, 'w') as customer_file:
+        deleted = False
+        i = 0
+        while i < len(lines):
+            if lines[i].strip().startswith("Account Number: ") and lines[i].split(":")[1].strip() == str(account_number):
+                # Remove the customer details
+                del lines[i:i + 9]  # Assuming each customer record has 9 lines
+                deleted = True
+            else:
+                customer_file.write(lines[i])
+                i += 1
+
+    if deleted:
+        print("Customer account deleted successfully.")
+    else:
+        print("Customer account not found. No account was deleted.")
+
+    # Remove transaction history associated with the account number
+    with open(transaction_filename, 'r') as transaction_file:
+        transactions = transaction_file.read()
+
+    with open(transaction_filename, 'w') as transaction_file:
+        # Split transactions by empty lines
+        transaction_blocks = transactions.strip().split('\n\n')
+        deleted_transactions = 0
+        for block in transaction_blocks:
+            if f"Account Number: {account_number}" not in block:
+                # Write back transactions not associated with the account number
+                transaction_file.write(block + '\n\n')
+            else:
+                deleted_transactions += 1
+
+    if deleted_transactions > 0:
+        print(f"Deleted {deleted_transactions} transactions associated with the account.")
+    else:
+        print("No transaction history found for the account.")
+
+    print_date_time()  # Function to print date and time
+
 # Function to change password for customer
 def change_customer_password(account_number, old_password, new_password):
     filename = CUSTOMER
