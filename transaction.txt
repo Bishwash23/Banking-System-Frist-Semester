@@ -1,0 +1,7 @@
+Account Number: 1000000000
+Transaction Type: Deposit
+Amount: 1200
+Balance: 1300
+Date: 2024-04-27
+Time: 09:25:41
+
