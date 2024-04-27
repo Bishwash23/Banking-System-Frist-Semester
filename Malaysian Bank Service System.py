@@ -33,3 +33,4 @@ def create_super_user():
             file.write(f"Username: {super_user_data['username']} \nPassword: {super_user_data['password']}")
     else:
         return
+create_super_user() # Call function to create the super user
