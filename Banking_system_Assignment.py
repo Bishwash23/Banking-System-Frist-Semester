@@ -1,4 +1,3 @@
-# Group members 1 tasks
 
 import os
 from datetime import datetime
