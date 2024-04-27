@@ -317,7 +317,9 @@ def default_password(date_of_birth):
 # Function to save customer details with unique identifiers (Customer ID and Account Number) after staff authentication
 def save_customer_details(filename, name, email, date_of_birth, account_type, balance):
     print("\nLogin into Staff Account to save customer details.\n")
-    
+    username = input("Enter Staff username: ")
+    password = input("Enter Staff password: ")
+    login_staff(username, password)
     # Generate unique Customer ID and Account Number
     customer_id = generate_unique_customer_id(filename)
     account_number = generate_unique_account_number(filename)
@@ -398,7 +400,7 @@ def update_staff_details():
     filename = STAFF
     print("\nUpdating staff details...\n")
     
-    # Prompt for staff username to update
+    # Prompt for gstaff username to update
     username = input("Enter the username of the staff to update: ")
 
     # Check if staff username exists
