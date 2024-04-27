@@ -754,3 +754,101 @@ def generate_statement_of_account_report(account_number, start_date, end_date):
     statement_report += f"Total Withdrawals: {total_withdrawals}\n"
     
     return statement_report
+
+# Menu for login
+while True:
+    # Displaying main menu options
+    print("1. Customer Login")
+    print("2. Customer Register")
+    print("3. Advanced")
+    print("4. Exit")  # Option to exit the program
+    
+    # Getting user choice
+    choice = input("\nEnter your choice: ")
+    
+    # Handling user choice
+    if choice == "1":  # Customer login
+        while True:
+            # Displaying login options
+            print("1. Login")
+            print("2. Exit")
+            choice = input("\nEnter your choice: ")
+            
+            if choice == "1":  # User wants to login
+                # Getting account number and password from user
+                account_number = input("\nEnter your account number: ")
+                password = input("Enter your password: ")
+                
+                # Checking if login credentials are valid
+                if login_customer(account_number, password):
+                    print("\nLogin successful!")
+                    
+                    # Checking if the password is the default one
+                    stored_dob = read_dob(account_number)
+                    default_password = default_password(stored_dob)
+                    
+                    if password == default_password:
+                        # Prompting user to change default password
+                        print("\nChange your default password")
+                        new_password = input("\nEnter new password:")
+                        
+                        # Changing user's password
+                        change_customer_password(account_number, default_password, new_password)
+                        print("Your new password is:", new_password)
+                        continue
+                    while True:
+                        # Displaying customer operation options
+                        print("1. Deposit")
+                        print("2. Withdrawal")
+                        print("3. Change password")
+                        print("4. Generate Statement")
+                        print("5. Logout")
+                        choice = input("\nEnter your choice: ")
+                        
+                        if choice == "1":  # Deposit money
+                            print("\nDeposit...")
+                            deposited_amount = input("\nEnter amount to deposit: ")
+                            deposit_money(account_number, deposited_amount)
+                            continue
+                        elif choice == "2":  # Withdraw money
+                            print("\nWithdrawal...")
+                            withdrawn_amount = input("\nEnter amount to withdraw: ")
+                            withdraw_money(account_number, withdrawn_amount)
+                            continue
+                        elif choice == "3":  # Change password
+                            print("\nChange password...")
+                            new_password = input("\nEnter new password: ")
+                            change_customer_password(account_number, password, new_password)
+                            print("\nPassword changed successfully.")
+                            print("Your new password is:", new_password)
+                            continue
+                        elif choice == "4":  # Generate statement
+                            print("\nGenerate statement...")
+                            start_date = input("\nEnter start date (YYYY-MM-DD): ")
+                            end_date = input("Enter end date (YYYY-MM-DD): ")
+                            report = generate_statement_of_account_report(account_number, start_date, end_date)
+                            print(report)
+                            continue
+                        elif choice == "5":  # Logout
+                            print("\nLogging out...")
+                            break
+                        else:
+                            print("Invalid choice. Please try again.")
+                            continue
+                else:
+                    print("Invalid account number or password. Please try again.")
+                    continue
+            elif choice == '2':  # User wants to exit login
+                print("Logging out...")
+                break
+            else:
+                print("Invalid choice. Please try again.")
+                continue
+    elif choice == '4':  # User wants to exit the program
+        print("Exiting the program...")
+        break
+    else:
+        print("Invalid choice. Please try again.")
+        continue
+
+    
