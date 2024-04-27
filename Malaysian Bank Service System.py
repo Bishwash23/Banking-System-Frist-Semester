@@ -15,3 +15,8 @@ MIN_CURRENT = 500
 
 # Get the current date and time
 current_time = datetime.now()
+
+# Function to print date and time
+def print_date_time():
+    print("\nDate:", current_time.strftime("%Y-%m-%d"))
+    print("Time:", current_time.strftime("%I:%M:%S %p"))
