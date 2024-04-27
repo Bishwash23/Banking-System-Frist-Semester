@@ -34,3 +34,20 @@ def create_super_user():
     else:
         return
 create_super_user() # Call function to create the super user
+
+# Function for authenticating a super user
+def login_super_user(username, password):
+    saved_username = None
+    saved_password = None
+    
+    with open(SUPER_USER, "r") as file:
+        for line in file:
+            if line.strip().startswith("Username:"):
+                saved_username = line.split(":")[1].strip()
+            elif line.strip().startswith("Password:"):
+                saved_password = line.split(":")[1].strip()
+
+        if username == saved_username and password == saved_password:
+            return True
+        else:
+            return False
