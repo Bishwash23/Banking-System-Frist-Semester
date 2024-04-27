@@ -576,35 +576,6 @@ def change_customer_password(account_number, old_password, new_password):
     else:
         print("Customer not found. Password not changed.")
 
-# Function to read the password
-def read_password(account_number):
-    filename = CUSTOMER
-    
-    # Read existing customer details from the file
-    with open(filename, 'r') as file:
-        lines = file.readlines()
-    
-    # Initialize variable to store the password
-    password = None
-    
-    # Flag to indicate if the account number is found
-    account_number_found = False
-    
-    # Iterate through each line in the file
-    for line in lines:
-        # Check if the line contains the details of the customer with the given account number
-        if line.strip().startswith("Account Number: ") and line.split(":")[1].strip() == str(account_number):
-            # Set the flag to indicate that the account number is found
-            account_number_found = True
-        # If the account number is found, look for the line containing the password
-        elif account_number_found and line.strip().startswith("Password: "):
-            # Extract the password
-            password = line.split(":")[1].strip()
-            # Break the loop once the password is found
-            break
-    
-    return password
-
 # Function to read dob
 def read_dob(account_number):
     filename = CUSTOMER
@@ -627,3 +598,20 @@ def read_dob(account_number):
     
     return dob
 
+# Menu for login
+print("1. Customer Login")
+print("2. Customer Register")
+print("3. Advanced")
+choice = input("Enter your choice: ")
+
+if choice == "1":
+    account_number = input("Enter your account number: ")
+    password = input("Enter your password: ")
+    if login_customer(account_number, password):
+        print("Login successful!")
+        stored_dob = read_dob(account_number)
+        default_password = default_password(stored_dob)
+        if password == default_password:
+            
+    else:
+        print("Invalid account number or password. Please try again.")
