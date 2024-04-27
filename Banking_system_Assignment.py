@@ -303,8 +303,12 @@ def save_customer_details(filename, name, email, date_of_birth, account_type, ba
     print("Password:", password)
     print_date_time() # function to print date and time
 
+date_of_birth = None  # Global variable to store the date of birth
+
 # Function to register customers
 def register_customer():
+    global date_of_birth  # Access the global variable
+    
     print("\nRegistering customer...\n")
     filename = CUSTOMER
     name = input("Enter Name: ")
@@ -605,4 +609,3 @@ def read_password(account_number):
     
     return password
 
-  
