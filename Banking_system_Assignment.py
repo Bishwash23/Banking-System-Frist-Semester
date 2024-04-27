@@ -605,3 +605,25 @@ def read_password(account_number):
     
     return password
 
+# Function to read dob
+def read_dob(account_number):
+    filename = CUSTOMER
+    
+    # Read existing customer details from the file
+    with open(filename, 'r') as file:
+        lines = file.readlines()
+    
+    # Initialize variable to store the date of birth
+    dob = None
+    
+    # Iterate through each line in the file
+    for i, line in enumerate(lines):
+        # Check if the line contains the account number
+        if line.strip().startswith("Account Number: ") and line.split(":")[1].strip() == str(account_number):
+            # Retrieve the date of birth from the line two lines above
+            dob = lines[i - 2].split(":")[1].strip()
+            # Break the loop once the date of birth is found
+            break
+    
+    return dob
+
