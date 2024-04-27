@@ -16,3 +16,12 @@ Account Number: 1000000001
 Password: dipen@
 Balance: 100
 
+Customer ID: 1002
+Name: bishwash
+Email: dipen23@gmail.com
+Date of Birth: 2001-2-3
+Account Type: saving
+Account Number: 1000000002
+Password: abc@2001-2-3
+Balance: 100
+

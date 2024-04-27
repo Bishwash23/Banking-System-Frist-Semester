@@ -535,3 +535,44 @@ def login_customer(account_number, password):
             return True
     return False
 
+# Function to change password for customer
+def change_customer_password(account_number, old_password, new_password):
+    filename = CUSTOMER
+    
+    # Read existing customer details from the file
+    with open(filename, 'r') as file:
+        lines = file.readlines()
+    
+    # Flag to track if the password was successfully changed
+    password_changed = False
+    
+    # Open file in write mode to update customer password
+    with open(filename, 'w') as file:
+        i = 0
+        while i < len(lines):
+            # Check if the line contains the details of the customer with the given account number
+            if lines[i].strip().startswith("Account Number: ") and lines[i].split(":")[1].strip() == str(account_number):
+                
+                # Find the line number of the password
+                password_index = i + 1
+                
+                # Extract the old password
+                saved_password = lines[password_index].split(":")[1].strip()
+                
+                # If the old password matches, update it with the new password
+                if saved_password == old_password:
+                    lines[password_index] = f"Password: {new_password}\n"
+                    password_changed = True
+                else:
+                    print("Error: Old password does not match.")
+                    return
+                
+            # Write the line back to the file
+            file.write(lines[i])
+            i += 1
+
+    if password_changed:
+        print("Password changed successfully.")
+    else:
+        print("Customer not found. Password not changed.")
+
