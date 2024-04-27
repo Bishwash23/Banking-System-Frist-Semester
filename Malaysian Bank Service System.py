@@ -8,3 +8,7 @@ ADMIN_STAFF = "admin_staff.txt"
 STAFF = "staff.txt"
 CUSTOMER = "customer.txt"
 TRANSACTION_FILE = "transaction.txt"
+
+# Minimum balance for customer accounts in RM
+MIN_SAVING = 100
+MIN_CURRENT = 500
