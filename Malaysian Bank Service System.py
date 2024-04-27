@@ -20,3 +20,16 @@ current_time = datetime.now()
 def print_date_time():
     print("\nDate:", current_time.strftime("%Y-%m-%d"))
     print("Time:", current_time.strftime("%I:%M:%S %p"))
+
+# Function to create a default Super User Account
+def create_super_user():
+    super_user_data = {
+        "username": "admin",
+        "password": "admin@123"
+    }
+    if not os.path.exists(SUPER_USER):
+        # If file does not exist, create it and write default super user details
+        with open(SUPER_USER, 'w') as file:
+            file.write(f"Username: {super_user_data['username']} \nPassword: {super_user_data['password']}")
+    else:
+        return
