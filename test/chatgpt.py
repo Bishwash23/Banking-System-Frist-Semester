@@ -1,53 +1,28 @@
-def update_customer_details(customer_id, filename):
-    print("\nUpdating customer details...\n")
+def login_customer(account_number, password):
+    filename = CUSTOMER
+    with open(filename, "r") as file:
+        customers = file.read().strip().split("\n\n")
 
-    # Read existing customer details from the file
-    with open(filename, 'r') as file:
-        lines = file.readlines()
+    # Iterate over each set of customer details
+    for customer in customers:
+        lines = customer.strip().split("\n")
+        saved_account_number = None
+        saved_password = None
+        for line in lines:
+            if line.strip().startswith("Account Number:"):
+                saved_account_number = line.split(":")[1].strip()
+            elif line.strip().startswith("Password:"):
+                saved_password = line.split(":")[1].strip()
 
-    updated = False  # Flag to track if any details were updated
+        if account_number == saved_account_number and password == saved_password:
+            return True
 
-    # Open file in write mode to update customer details
-    with open(filename, 'w') as file:
-        i = 0
-        while i < len(lines):
-            # Check if the line contains the details of the customer with the given Customer ID
-            if lines[i].strip().startswith("Customer ID: ") and lines[i].split(":")[1].strip() == str(customer_id):
-                # Update the email, account type, password, and balance
-                new_email = input("Enter new email (leave blank to keep current): ")
-                new_account_type = input("Enter new account type (leave blank to keep current): ").lower()
-                new_password = input("Enter new password (leave blank to keep current): ")
-                new_balance = input("Enter new balance (leave blank to keep current): ")
+    return False
 
-                # Find the line numbers of relevant details
-                email_index = i + 1
-                account_type_index = i + 2
-                password_index = i + 3
-                balance_index = i + 4
+account_number = input("Enter your account number: ")
+password = input("Enter your password: ")
 
-                # Update the email if provided
-                if new_email != "":
-                    lines[email_index] = f"Email: {new_email}\n"
-
-                # Update the account type if provided
-                if new_account_type != "":
-                    lines[account_type_index] = f"Account Type: {new_account_type}\n"
-
-                # Update the password if provided
-                if new_password != "":
-                    lines[password_index] = f"Password: {new_password}\n"
-
-                # Update the balance if provided
-                if new_balance != "":
-                    lines[balance_index] = f"Balance: {new_balance}\n"
-
-                updated = True  # Set the flag to True indicating that details were updated
-            # Write the line back to the file
-            file.write(lines[i])
-            i += 1
-
-    if updated:
-        print("Customer details updated successfully.")
-    else:
-        print("Customer not found. No details were updated.")
-    print_date_time()
+if login_customer(account_number, password):
+    print("Login successful!")
+else:
+    print("Invalid account number or password. Please try again.")
