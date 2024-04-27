@@ -642,3 +642,71 @@ def deposit_money(account_number, deposited_amount):
 
     print("New balance: ",new_balance)
     print_date_time()
+
+# Function to withdraw money from customer account
+def withdraw_money(account_number, withdrawn_amount):
+    customer_filename = CUSTOMER
+    transaction_filename = TRANSACTION_FILE
+    
+    # Read customer details from the customer file
+    with open(customer_filename, 'r') as customer_file:
+        customer_data = customer_file.read()
+    
+    # Find the customer with the given account number
+    account_number_str = str(account_number)
+    account_number_index = customer_data.find("Account Number: " + account_number_str)
+    if account_number_index == -1: # Account number not found
+        print("Error: Account number not found.")
+        return
+    
+    # Find the end index of the current customer's details
+    end_index = customer_data.find("Account Number: ", account_number_index + len(account_number_str))
+    if end_index == -1:  # If there is no next customer, set the end index to the end of the file
+        end_index = len(customer_data)
+    
+    # Extract the customer's account type
+    account_type_index = customer_data.find("Account Type: ", account_number_index, end_index) + len("Account Type: ")
+    account_type_end_index = customer_data.find("\n", account_type_index)
+    account_type = customer_data[account_type_index:account_type_end_index].lower()
+    
+    # Extract the customer's balance
+    balance_index = customer_data.find("Balance: ", account_number_index, end_index) + len("Balance: ")
+    balance_end_index = customer_data.find("\n", balance_index)
+    current_balance = int(customer_data[balance_index:balance_end_index])
+    
+    withdrawn_amount = int(withdrawn_amount)
+    
+    # Check if the withdrawal amount is valid
+    if withdrawn_amount <= 0:
+        print("Error: Invalid withdrawal amount.")
+        return
+    elif withdrawn_amount > current_balance:
+        print("Error: Insufficient balance.")
+        return
+    
+    # Check if the withdrawal amount violates the minimum balance requirement
+    if account_type == "saving" and current_balance - withdrawn_amount < MIN_SAVING:
+        print("Error: Minimum balance for saving accounts is RM", MIN_SAVING)
+        return
+    elif account_type == "current" and current_balance - withdrawn_amount < MIN_CURRENT:
+        print("Error: Minimum balance for current accounts is RM", MIN_CURRENT)
+        return
+    
+    # Calculate new balance after withdrawal
+    new_balance = current_balance - withdrawn_amount
+    
+    # Update customer details in the customer file
+    updated_customer_data = customer_data[:balance_index] + str(new_balance) + customer_data[balance_end_index:]
+    with open(customer_filename, 'w') as customer_file:
+        customer_file.write(updated_customer_data)
+    
+    Date = current_time.strftime("%Y-%m-%d")
+    Time = current_time.strftime("%H:%M:%S")
+    # Write withdrawal details to the transaction file
+    with open(transaction_filename, 'a') as transaction_file:
+        transaction_file.write(f"Account Number: {account_number}\nTransaction Type: Withdrawal\nAmount: {withdrawn_amount}\nBalance: {new_balance}\nDate: {Date}\nTime: {Time}\n\n")
+
+    print("Withdrawal successful.")
+    print("New balance: ", new_balance)
+    print_date_time()
+

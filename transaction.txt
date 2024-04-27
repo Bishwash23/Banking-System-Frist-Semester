@@ -5,3 +5,10 @@ Balance: 1300
 Date: 2024-04-27
 Time: 09:25:41
 
+Account Number: 1000000000
+Transaction Type: Withdrawal
+Amount: 200
+Balance: 1100
+Date: 2024-04-27
+Time: 09:41:35
+
