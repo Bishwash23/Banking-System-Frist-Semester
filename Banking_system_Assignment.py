@@ -993,7 +993,9 @@ while True:
                         print("\n1. Create a new Staff account")
                         print("2. Edit Staff account")
                         print("3. Edit customer account")
-                        print("4. Exit")
+                        print("4. Delete staff account")
+                        print("5. Delete customer account")
+                        print("6. Exit")
                         choice = input("\nEnter your choice: ")
                         
                         if choice == '1':  # Create a new staff account
@@ -1005,7 +1007,15 @@ while True:
                         elif choice == '3':  # Edit customer account
                             update_customer_details()
                             continue
-                        elif choice == '4':  # Exit
+                        elif choice == '4':  # Delete staff account
+                            delete_staff_account()
+                            continue
+                        elif choice == '5':  # Delete customer account
+                            print("\n Deleting customer account...")
+                            account_number = input("Enter the account number of the customer you want to delete: ")
+                            delete_customer_account(account_number)
+                            continue
+                        elif choice == '6':  # Exit
                             break
                         else:
                             print("Invalid choice. Please try again.")
