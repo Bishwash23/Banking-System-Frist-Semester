@@ -1,35 +1,50 @@
-def deposit_money(account_number, deposited_amount, customer_filename, transaction_filename):
-    # Read customer details from the customer file
-    with open(customer_filename, 'r') as customer_file:
-        customer_data = customer_file.read()
+def generate_statement_of_account_report(account_number, start_date, end_date):
+    transaction_filename = TRANSACTION_FILE
     
-    # Find the customer with the given account number
-    account_number_str = str(account_number)
-    account_number_index = customer_data.find("Account Number: " + account_number_str)
-    if account_number_index == -1:  # Account number not found
-        print("Error: Account number not found.")
-        return
+    # Initialize total deposits and total withdrawals
+    total_deposits = 0
+    total_withdrawals = 0
     
-    # Find the end index of the current customer's details
-    end_index = customer_data.find("Account Number: ", account_number_index + len(account_number_str))
-    if end_index == -1:  # If there is no next customer, set the end index to the end of the file
-        end_index = len(customer_data)
+    # Read transactions from the transaction file
+    with open(transaction_filename, 'r') as transaction_file:
+        transactions = transaction_file.read().strip().split("\n\n")
     
-    # Extract the customer's balance
-    balance_index = customer_data.find("Balance: ", account_number_index, end_index) + len("Balance: ")
-    balance_end_index = customer_data.find("\n", balance_index)
-    current_balance = int(customer_data[balance_index:balance_end_index])
+    # Initialize statement of account report
+    statement_report = f"Statement of Account Report for Account Number: {account_number}\n"
+    statement_report += f"Period: {start_date} to {end_date}\n\n"
     
-    # Calculate new balance after deposit
-    new_balance = current_balance + deposited_amount
+    # Iterate through transactions
+    for transaction in transactions:
+        lines = transaction.strip().split("\n")
+        transaction_details = {}
+        for line in lines:
+            key, value = line.split(": ")
+            transaction_details[key] = value
+        
+        # Check if the transaction is within the specified period and for the specified account number
+        transaction_date = transaction_details["Date"]
+        if start_date <= transaction_date <= end_date and int(transaction_details["Account Number"]) == account_number:
+            transaction_type = transaction_details["Transaction Type"]
+            amount = int(transaction_details["Amount"])
+            
+            # Update total deposits and withdrawals
+            if transaction_type == "Deposit":
+                total_deposits += amount
+            elif transaction_type == "Withdrawal":
+                total_withdrawals += amount
+            
+            # Add transaction details to the statement of account report
+            statement_report += f"Date: {transaction_date}, Transaction Type: {transaction_type}, Amount: {amount}\n"
     
-    # Update customer details in the customer file
-    updated_customer_data = customer_data[:balance_index] + str(new_balance) + customer_data[balance_end_index:]
-    with open(customer_filename, 'w') as customer_file:
-        customer_file.write(updated_customer_data)
+    # Add total deposits and withdrawals to the statement of account report
+    statement_report += f"\nTotal Deposits: {total_deposits}\n"
+    statement_report += f"Total Withdrawals: {total_withdrawals}\n"
     
-    # Write deposit details to the transaction file
-    with open(transaction_filename, 'a') as transaction_file:
-        transaction_file.write(f"Account Number: {account_number}\nTransaction Type: Deposit\nAmount: {deposited_amount}\nBalance: {new_balance}\n\n")
+    return statement_report
 
-    print("Deposit successful.")
+# Example usage:
+# account_number = 1234567890
+# start_date = "2024-01-01"
+# end_date = "2024-04-30"
+# report = generate_statement_of_account_report(account_number, start_date, end_date)
+# print(report)
