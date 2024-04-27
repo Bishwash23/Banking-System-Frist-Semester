@@ -12,3 +12,6 @@ TRANSACTION_FILE = "transaction.txt"
 # Minimum balance for customer accounts in RM
 MIN_SAVING = 100
 MIN_CURRENT = 500
+
+# Get the current date and time
+current_time = datetime.now()
