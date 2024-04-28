@@ -173,3 +173,31 @@ def create_admin_staff():
     print("Email:", admin_staff_data['email'])
     print_date_time()  # function to print date and time
 
+# Function to login in admin staff account
+def login_admin_staff(username, password):
+    filename = ADMIN_STAFF
+    
+    # Check if the provided credentials match any admin staff account
+    try:
+        with open(filename, 'r') as file:
+            credentials = file.read().split("\n\n")
+        
+            # Iterate over each set of credentials
+        for credential in credentials:
+            lines = credential.split("\n")
+            saved_username = None
+            saved_password = None
+            for line in lines:
+                if line.strip().startswith("Username:"):
+                    saved_username = line.split(":")[1].strip()
+                elif line.strip().startswith("Password:"):
+                    saved_password = line.split(":")[1].strip()
+
+            # If the username and password match, login successful
+            if username == saved_username and password == saved_password:
+                return True
+        # If no matching account is found, login unsuccessful
+        return False
+    except IOError:
+        print("Error reding admin staff file.")
+
