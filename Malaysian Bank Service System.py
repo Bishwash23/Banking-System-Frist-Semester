@@ -422,4 +422,3 @@ def update_staff_details():
     else:
         print("Staff member not found. No details were updated.")
     print_date_time() # Function to print date and time
-update_staff_details()
