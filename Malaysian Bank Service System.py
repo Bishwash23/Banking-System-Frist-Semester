@@ -83,3 +83,22 @@ def username_available(filename, username):
     # If the username is not found, it's available
     return True  # Username is available
 
+# Check email already exists or not
+def email_available(filename, email):
+    # If the file doesn't exits, create it
+    if not os.path.exists(filename):
+        with open(filename, 'w'):
+            pass # Create an empty file if it doesn't exist
+    
+    # Open the file and check for existing email
+    with open(filename, 'r') as file:
+        for line in file:
+            # Check if the line contains a email
+            if line.strip().startswith("Email: "):
+                # Extract the existing email
+                existing_email = line.split(": ")[1].strip()
+                # If the exiting email matches the given email, it's not available
+                if existing_email == email:
+                    return False  # Email already exists
+    # If the email is not found, it's available
+    return True  # Email is available
