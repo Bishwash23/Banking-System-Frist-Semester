@@ -356,3 +356,70 @@ def delete_staff_account(username):
             print(f"Staff account with username '{username}' not found.")
     except IOError:
         print("Error reading or writing staff file.")
+
+# Function to update staff details
+def update_staff_details():
+    filename = STAFF
+    print("\nUpdating staff details...\n")
+    
+    # Prompt for staff username to update
+    username = input("Enter the username of the staff to update: ")
+
+    # Check if staff username exists
+    if not username_available(filename, username):
+        
+        # Prompt for new email (if needed)
+        while True:
+            new_email = input("Enter new email (leave blank to keep current): ")
+            if new_email == "":
+                break
+            elif not validate_email(new_email):
+                continue
+            elif not email_available(filename, new_email):
+                print("Error: Email already exists.")
+                continue
+            else:
+                break
+        
+        # Prompt for new password (if needed)
+        while True:
+            new_password = input("Enter new password (leave blank to keep current): ")
+            if new_password == "":
+                break
+            elif len(new_password) < 8: # Minimum password length requirement
+                print("Error: Password must be at least 8 characters.")
+                continue
+            else:
+                break
+        
+        updated = False # Flag to track if any details were updated
+        
+        # Read existing staff details from the file
+        with open(filename, 'r') as file:
+            lines = file.readlines()
+        
+        # Open file in write mode to update staff details
+        with open(filename, 'w') as file:
+            i = 0
+            while i < len(lines):
+                # Check if the line contains the details of the staff member with the given username
+                if lines[i].strip().startswith("Username: ") and lines[i].split(":")[1].strip() == username:
+                    # Update the email and password
+                    if new_email != "":
+                        lines[i + 2] = f"Email: {new_email}\n"
+                    if new_password != "":
+                        lines[i + 3] = f"Password: {new_password}\n"
+                    
+                    updated = True  # Set the flag to True indicating that details were updated
+                # Write the line back to the file
+                file.write(lines[i])
+                i += 1
+        
+        if updated:
+            print("Staff details updated successfully.")
+        else:
+            print("No details were updated.")
+    else:
+        print("Staff member not found. No details were updated.")
+    print_date_time() # Function to print date and time
+update_staff_details()

@@ -15,8 +15,8 @@ Password: rahul@123
 
 Username: avinash
 Name: Avinash
-Email: avinash@gmail.com
-Password: avinash@456
+Email: avinash24@gmail.com
+Password: avinash@24
 
 Username: jiten
 Name: jiten
