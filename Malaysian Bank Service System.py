@@ -39,28 +39,27 @@ def create_super_user():
         return
 create_super_user() # Call function to create the super user if it doesn't exits
 
-# Function for authenticating a super user
 def login_super_user(username, password):
+    # Function to authenticate the super user
     saved_username = None
     saved_password = None
-    
-    # Open the super user file for reading
-    with open(SUPER_USER, "r") as file:
-        # Iterate through each line in the file
-        for line in file:
-            # Check if the line contains the username
-            if line.strip().startswith("Username:"):
-                # Extract the saved username
-                saved_username = line.split(":")[1].strip()
-            # Check if the line contains the password
-            elif line.strip().startswith("Password:"):
-                # Extract the saved password
-                saved_password = line.split(":")[1].strip()
-        
-        # Check if the provided username and password match the saved credentials
+    try:
+        # Try to open the super user file for reading
+        with open(SUPER_USER, "r") as file:
+            for line in file:
+                if line.strip().startswith("Username:"):
+                    saved_username = line.split(":")[1].strip()
+                elif line.strip().startswith("Password:"):
+                    saved_password = line.split(":")[1].strip()
+
         if username == saved_username and password == saved_password:
-            # If they match, return True indicating successful authentication
+            # If provided credentials match saved credentials, return True
             return True
         else:
-            # If they do not match, return False indicating authentication failure
+            # If credentials do not math, return False
             return False
+    except IOError:
+        # Handle IO errors if file reading fails
+        print("Error reading super user file.")
+        return False
+
