@@ -495,3 +495,100 @@ def generate_unique_account_number():
 def default_password(date_of_birth):
     password = "abc@" + date_of_birth
     return password
+
+# Function to save customer details
+def save_customer_details(filename, name, email, date_of_birth, account_type, balance):
+    print("\nLogin into Staff Account to save customer details.\n")
+    while True:
+        username = input("Enter Staff username: ")
+        password = input("Enter Staff password: ")
+        
+        # Assuming login_staff function handles staff authentication
+        if login_staff(username, password):
+            # Generate unique Customer ID and Account Number
+            customer_id = generate_unique_customer_id()
+            account_number = generate_unique_account_number()
+            
+            password = default_password(date_of_birth)
+            
+            # Write customer details to file
+            with open(filename, 'a') as file:
+                # Write account number in the second column
+                file.write(f"Customer ID: {customer_id}\tAccount Number: {account_number}\n")
+                file.write(f"Name: {name}\nEmail: {email}\nDate of Birth: {date_of_birth}\nAccount Type: {account_type}\nPassword: {password}\nBalance: {balance}\n\n")
+            
+            # Print confirmation message
+            print("\nCustomer details saved successfully!")
+            print("Customer ID:", customer_id)
+            print("Account Number:", account_number)
+            print("Name: ", name,"\nDate of Birth: ", date_of_birth,"\nAccount Type: ", account_type)
+            print("Password:", password)
+            print_date_time() # Function to print date and time
+            break
+        else:
+            print("Invalid staff credentials. Unable to save customer details. Try again.\n")
+            continue
+
+# Function to register customers
+def register_customer():
+    print("\nRegistering customer...\n")
+    filename = CUSTOMER
+    name = input("Enter Name: ")
+    
+    # Validate and get a unique email
+    while True:
+        email = input("Enter Email: ")
+        if not email_available(filename, email):
+            print("Error: Email already exists.")
+            continue
+        elif not validate_email(email):
+            print("Error: Invalid email format.")
+            continue
+        else:
+            break
+    
+    # Prompt for Date of Birth
+    while True:
+        date_of_birth = input("Enter Date of Birth in AD (YYYY-MM-DD): ")
+        age = calculate_age(date_of_birth)
+        if isinstance(age, int):
+            if age < 18:
+                print("Age is below 18. Not eligible to create an account.")
+                return
+            else:
+                break
+        else:
+            print(age) # Print the error message if date of birth is invalid
+            continue
+    
+    # Prompt for Account Type
+    while True:
+        account_type = input("Enter Account Type (Saving/Current): ").lower()
+    
+        # Validate account type
+        if account_type not in ["saving", "current"]:
+            print("Error: Invalid account type. Please enter 'Saving' or 'Current'.")
+            continue
+        else:
+            break
+    
+    # Initialize balance with a default value
+    balance = 0
+    
+    # Set initial balance based on account type
+    if account_type == "saving":
+        balance = MIN_SAVING
+        
+    elif account_type == "current":
+        balance = MIN_CURRENT
+        
+    
+    # Print confirmation message
+    print("\nCustomer registered successfully.")
+    print("Name:", name)
+    print("Email:", email)
+    print("Date of Birth:", date_of_birth)
+    print("Account Type:", account_type)
+    print_date_time() # function to print date and time
+    save_customer_details(filename, name, email, date_of_birth, account_type, balance)
+
