@@ -1,4 +1,4 @@
-Username: bish
+Username: bishb
 Name: Bishwash Bhattarai
 Email: bhattarai@gmail.com
 Password: password123
@@ -6,10 +6,20 @@ Password: password123
 Username: dipen
 Name: Dipen
 Email: bip@.com
-Password: hj
+Password: dipen@dipen
 
 Username: rahul
 Name: Rahul
 Email: rahul@gmail.com
 Password: rahul@123
+
+Username: avinash
+Name: Avinash
+Email: avinash@gmail.com
+Password: avinash@456
+
+Username: jiten
+Name: jiten
+Email: jiten@gmail.com
+Password: jiten@232
 

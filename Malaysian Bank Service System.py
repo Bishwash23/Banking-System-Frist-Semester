@@ -233,3 +233,67 @@ def delete_admin_account(username):
     except IOError:
         print("Error reading or writing admin staff file.")
 
+# Function to create staff account
+def create_staff():
+    print("\nCreating staff account...\n")
+    filename = STAFF
+    
+    # Input name
+    name = input("Enter Name: ")
+    
+    # Validate and get a unique username
+    while True:
+        username = input("Enter Username: ")
+        if not username_available(filename, username):
+            print("Error: Username already exists.")
+            continue
+        elif len(username) < 5:  # Example: Minimum length requirement
+            print("Error: Username must be at least 5 characters.")
+            continue
+        else:
+            break
+    
+    # Validate and get a unique email
+    while True:
+        email = input("Enter Email: ")
+        if not email_available(filename, email):
+            print("Error: Email already exists.")
+            continue
+        elif not validate_email(email):
+            print("Error: Invalid email format.")
+            continue
+        else:
+            break
+    
+    # Input and validate password
+    while True:
+        password = input("Enter Password: ")
+        if len(password) < 8:  # Example: Minimum password length requirement
+            print("Error: Password must be at least 8 characters.")
+            continue
+        else:
+            break
+    
+    # Store staff data
+    admin_staff_data = {
+        "username": username,
+        "name": name,
+        "email": email,
+        "password": password
+    }
+
+    # Write staff details to file
+    try:
+        with open(filename, 'a') as file:
+            file.write(f"Username: {admin_staff_data['username']}\nName: {admin_staff_data['name']}\nEmail: {admin_staff_data['email']}\nPassword: {admin_staff_data['password']}\n\n")
+    except IOError:
+        print("Error writing to file.")
+        return
+    
+    # Print confirmation message
+    print("\nAdmin Staff Account created successfully.")
+    print("Username:", admin_staff_data['username'])
+    print("Name:", admin_staff_data['name'])
+    print("Email:", admin_staff_data['email'])
+    print_date_time()  # function to print date and time
+
