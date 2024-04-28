@@ -201,3 +201,35 @@ def login_admin_staff(username, password):
     except IOError:
         print("Error reding admin staff file.")
 
+# Function to delete admin account
+def delete_admin_account(username):
+    filename = ADMIN_STAFF
+    
+    try:
+        with open(filename, 'r') as file:
+            lines = file.readlines()
+        
+        # Find the index of the admin account to be deleted
+        indexes_to_delete = []
+        for i, line in enumerate(lines):
+            if line.strip().startswith("Username:") and line.strip().split(":")[1].strip() == username:
+                # Found the username to delete
+                indexes_to_delete.append(i)
+                indexes_to_delete.append(i + 1)  # Also delete the following lines containing name, email, password
+                indexes_to_delete.append(i + 2)
+                indexes_to_delete.append(i + 3)
+
+        if indexes_to_delete:
+            # Remove the lines corresponding to the admin account
+            updated_lines = [line for i, line in enumerate(lines) if i not in indexes_to_delete]
+
+            # Write the updated content back to the file
+            with open(filename, 'w') as file:
+                file.writelines(updated_lines)
+            
+            print(f"Admin account with username '{username}' deleted successfully.")
+        else:
+            print(f"Admin account with username '{username}' not found.")
+    except IOError:
+        print("Error reading or writing admin staff file.")
+
