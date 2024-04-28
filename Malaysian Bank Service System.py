@@ -13,12 +13,9 @@ TRANSACTION_FILE = "transaction.txt"
 MIN_SAVING = 100
 MIN_CURRENT = 500
 
-# Get the current date and time
-current_time = datetime.now()
-
-# Function to print date and time
 def print_date_time():
-    # Print the current date and time in the specified format
+    # Function to print the current date and time
+    current_time = datetime.now()
     print("\nDate:", current_time.strftime("%Y-%m-%d"))
     print("Time:", current_time.strftime("%I:%M:%S %p"))
 
