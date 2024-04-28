@@ -102,3 +102,9 @@ def email_available(filename, email):
                     return False  # Email already exists
     # If the email is not found, it's available
     return True  # Email is available
+
+# Basic email format validation
+def validate_email(email):
+    if "@" in email and "." in email:
+        return True
+    return False
