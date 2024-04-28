@@ -1,10 +1,20 @@
 Username: bishwash
 Name: Bishwash Bhattarai
 Email: bishwash23@gmail.com
-Password: bish
+Password: bish@23b
 
-Username: dip
+Username: dipen
 Name: Dipen
 Email: dipen@gmail.com
-Password: dipen
+Password: dipen@dip
+
+Username: rahul
+Name: Rahul
+Email: rahul@gmail.com
+Password: rahul@rahul
+
+Username: avanish
+Name: Avanish
+Email: avanish@gmail.com
+Password: avansih@12
 
