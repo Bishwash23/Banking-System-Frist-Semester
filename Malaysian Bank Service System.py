@@ -491,3 +491,7 @@ def generate_unique_account_number():
 
     return unique_account_number
 
+# Function to generate a default password
+def default_password(date_of_birth):
+    password = "abc@" + date_of_birth
+    return password
