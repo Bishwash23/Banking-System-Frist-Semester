@@ -442,3 +442,28 @@ def calculate_age(dob):
         return age
     except ValueError:
         return "Invalid date format. Please provide date in format YYYY-MM-DD."
+
+# Function to generate unique Customer ID
+def generate_unique_customer_id():
+    filename = CUSTOMER
+    # Initialize counter
+    customer_counter = 1
+    
+    # Read existing customer IDs from the file and update the counter if necessary
+    if os.path.exists(filename):
+        with open(filename, 'r') as file:
+            for line in file:
+                if line.strip().startswith("Customer ID:"):
+                    # Extract existing customer ID and update counter
+                    existing_customer_id = line.split(":")[1].strip()
+                    existing_customer_counter = int(existing_customer_id)
+                    customer_counter = max(customer_counter, existing_customer_counter + 1)
+
+    # Generate a new unique customer ID
+    unique_customer_id = customer_counter
+    
+    # Increment the counter for the next customer
+    customer_counter += 1
+
+    return unique_customer_id
+
