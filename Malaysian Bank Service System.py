@@ -63,3 +63,23 @@ def login_super_user(username, password):
         print("Error reading super user file.")
         return False
 
+# Check if a username is available in a given file
+def username_available(filename, username):
+    # If the file doesn't exist, create it
+    if not os.path.exists(filename):
+        with open(filename, 'w'):
+            pass  # Create an empty file if it doesn't exist
+    
+    # Open the file and check for existing usernames
+    with open(filename, 'r') as file:
+        for line in file:
+            # Check if the line contains a username
+            if line.strip().startswith("Username: "):
+                # Extract the existing username
+                existing_username = line.split(": ")[1].strip()
+                # If the existing username matches the given username, it's not available
+                if existing_username == username:
+                    return False  # Username already exists
+    # If the username is not found, it's available
+    return True  # Username is available
+
