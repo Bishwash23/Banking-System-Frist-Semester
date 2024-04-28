@@ -422,3 +422,23 @@ def update_staff_details():
     else:
         print("Staff member not found. No details were updated.")
     print_date_time() # Function to print date and time
+
+# Function to calculate age
+def calculate_age(dob):
+    try:
+        # Convert input dob to datetime object
+        dob_date = datetime.strptime(dob, "%Y-%m-%d")
+        
+        # Get today's date
+        today = datetime.today()
+        
+        # Check if dob is in the future
+        if dob_date > today:
+            return "Invalid date of birth. Please provide a date in the past."
+        
+        # Calculate age
+        age = today.year - dob_date.year - ((today.month, today.day) < (dob_date.month, dob_date.day))
+        
+        return age
+    except ValueError:
+        return "Invalid date format. Please provide date in format YYYY-MM-DD."
