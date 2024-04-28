@@ -467,3 +467,27 @@ def generate_unique_customer_id():
 
     return unique_customer_id
 
+# Function to generate unique Account Number
+def generate_unique_account_number():
+    filename = CUSTOMER
+    # Initialize counter
+    account_counter = 1
+    
+    # Read existing account numbers from the file and update the counter if necessary
+    if os.path.exists(filename):
+        with open(filename, 'r') as file:
+            for line in file:
+                if line.strip().startswith("Account Number:"):
+                    # Extract existing account number and update counter
+                    existing_account_number = line.split(":")[1].strip()
+                    existing_account_counter = int(existing_account_number)
+                    account_counter = max(account_counter, existing_account_counter + 1)
+
+    # Generate a new unique account number
+    unique_account_number = account_counter
+    
+    # Increment the counter for the next account
+    account_counter += 1
+
+    return unique_account_number
+
