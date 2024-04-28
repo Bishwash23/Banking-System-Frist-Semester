@@ -19,22 +19,25 @@ def print_date_time():
     print("\nDate:", current_time.strftime("%Y-%m-%d"))
     print("Time:", current_time.strftime("%I:%M:%S %p"))
 
-# Function to create a default Super User Account
 def create_super_user():
-    # Default super user credentials
+    # Function to create a default super user account if it doesn't exist
     super_user_data = {
         "username": "admin",
         "password": "admin@123"
     }
     # Check if the super user file does not exist
     if not os.path.exists(SUPER_USER):
-        # If file does not exist, create it and write default super user details
-        with open(SUPER_USER, 'w') as file:
-            file.write(f"Username: {super_user_data['username']} \nPassword: {super_user_data['password']}")
+        try:
+            # Try to create super user file and write default credentials
+            with open(SUPER_USER, 'w') as file:
+                file.write(f"Username: {super_user_data['username']} \nPassword: {super_user_data['password']}")
+        except IOError:
+            # Handle IO errors if file creation fails
+            print("Error creating super user file.")
     else:
         # If the file exists, do nothing
         return
-create_super_user() # Call function to create the super user
+create_super_user() # Call function to create the super user if it doesn't exits
 
 # Function for authenticating a super user
 def login_super_user(username, password):
