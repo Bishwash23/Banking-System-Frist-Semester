@@ -20,7 +20,7 @@ Customer ID: 1002
 Account Number: 1000000002
 Name: bishwash
 Email: bish3@gmail.com
-Date of Birth: 2001-2-3
+Date of Birth: 2001-02-03
 Account Type: saving
 Password: abc@2001-02-03
 Balance: 100
