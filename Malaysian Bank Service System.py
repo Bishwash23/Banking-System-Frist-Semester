@@ -793,3 +793,37 @@ def delete_customer_account(account_number):
     else:
         print(f"Customer account with account number '{account_number}' not found.")
 
+# Function to login in customer account
+def login_customer(account_number, password):
+    filename = CUSTOMER
+    
+    try:
+        with open(filename, 'r') as file:
+            # Read all lines from the file
+            lines = file.readlines()
+            
+            # Initialize variables to store customer details
+            stored_account_number = None
+            stored_password = None
+            
+            # Iterate over each line in the file
+            for line in lines:
+                # Check if the line contains Account Number or Password
+                if line.strip().startswith("Account Number:"):
+                    stored_account_number = line.split(":")[1].strip()
+                elif line.strip().startswith("Password:"):
+                    stored_password = line.split(":")[1].strip()
+                
+                # If both Account Number and Password are found, check for a match
+                if stored_account_number and stored_password:
+                    # Check if the provided Account Number and Password match
+                    if account_number == stored_account_number and password == stored_password:
+                        # Return True if login is successful
+                        return True
+    
+    except IOError:
+        print("Error reading customer file.")
+    
+    # Return False if Account Number or Password doesn't match or if there's an error reading the file
+    return False
+

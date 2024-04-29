@@ -22,7 +22,7 @@ Name: bishwash
 Email: bish3@gmail.com
 Date of Birth: 2001-2-3
 Account Type: saving
-Password: abc@2001-2-3
+Password: abc@2001-02-03
 Balance: 100
 
 Customer ID: 1003
