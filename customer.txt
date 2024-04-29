@@ -14,7 +14,7 @@ Email: dipen12@gmail.com
 Date of Birth: 2003-01-23
 Account Type: current
 Password: dipen@12
-Balance: 500
+Balance: 900
 
 Customer ID: 1002
 Account Number: 1000000002
@@ -32,5 +32,5 @@ Email: abanish@gmail.com
 Date of Birth: 2003-09-23
 Account Type: current
 Password: abc@2003-09-23
-Balance: 500
+Balance: 700
 
