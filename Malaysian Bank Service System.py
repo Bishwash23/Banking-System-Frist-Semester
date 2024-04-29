@@ -709,3 +709,87 @@ def update_customer_details():
         print("Customer not found. No details were updated.")
     print_date_time()
 
+# Function to delete customer account
+def delete_customer_account(account_number):
+    customer_file = CUSTOMER
+    transaction_file = TRANSACTION_FILE
+    
+    # Initialize flag to check if customer account is found
+    account_found = False
+    
+    # Read customer details from file
+    try:
+        with open(customer_file, 'r') as file:
+            customer_lines = file.readlines()
+    except IOError:
+        print("Error reading customer file.")
+        return
+    
+    # Find the index of the customer account to be deleted
+    customer_indexes_to_delete = []
+    for i in range(len(customer_lines)):
+        if customer_lines[i].strip().startswith("Account Number:") and customer_lines[i].strip().split(":")[1].strip() == account_number:
+            # Found the account number to delete
+            account_found = True
+            # Append the index of customer details to delete
+            customer_indexes_to_delete.append(i - 2)
+            customer_indexes_to_delete.append(i - 1)
+            customer_indexes_to_delete.append(i)
+            customer_indexes_to_delete.append(i + 1)  # Also delete the following lines containing customer details
+            customer_indexes_to_delete.append(i + 2)
+            customer_indexes_to_delete.append(i + 3)
+            customer_indexes_to_delete.append(i + 4)
+            customer_indexes_to_delete.append(i + 5)
+            customer_indexes_to_delete.append(i + 6)
+    
+    if account_found:
+        # Remove the lines corresponding to the customer account
+        updated_customer_lines = [line for i, line in enumerate(customer_lines) if i not in customer_indexes_to_delete]
+        
+        # Write the updated customer details back to the file
+        try:
+            with open(customer_file, 'w') as file:
+                file.writelines(updated_customer_lines)
+        except IOError:
+            print("Error writing customer file.")
+            return
+        
+        print(f"Customer account with account number '{account_number}' deleted successfully.")
+        
+        # Delete transaction history associated with the account number
+        try:
+            with open(transaction_file, 'r') as file:
+                transaction_lines = file.readlines()
+        except IOError:
+            print("Error reading transaction file.")
+            return
+        
+        # Find the indexes of transaction history to delete
+        transaction_indexes_to_delete = []
+        for i in range(len(transaction_lines)):
+            if transaction_lines[i].strip().startswith("Account Number:") and transaction_lines[i].strip().split(":")[1].strip() == account_number:
+                # Found the account number in transaction history to delete
+                transaction_indexes_to_delete.append(i - 1)
+                transaction_indexes_to_delete.append(i)
+                transaction_indexes_to_delete.append(i + 1)  # Also delete the following lines containing transaction details
+                transaction_indexes_to_delete.append(i + 2)
+                transaction_indexes_to_delete.append(i + 3)
+                transaction_indexes_to_delete.append(i + 4)
+                transaction_indexes_to_delete.append(i + 5)
+        
+        # Remove the lines corresponding to the transaction history
+        updated_transaction_lines = [line for i, line in enumerate(transaction_lines) if i not in transaction_indexes_to_delete]
+        
+        # Write the updated transaction history back to the file
+        try:
+            with open(transaction_file, 'w') as file:
+                file.writelines(updated_transaction_lines)
+        except IOError:
+            print("Error writing transaction file.")
+            return
+        
+        print(f"Transaction history associated with account number '{account_number}' deleted successfully.")
+        
+    else:
+        print(f"Customer account with account number '{account_number}' not found.")
+
