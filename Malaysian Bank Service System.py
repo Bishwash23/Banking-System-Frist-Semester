@@ -514,7 +514,7 @@ def save_customer_details(filename, name, email, date_of_birth, account_type, ba
             # Write customer details to file
             with open(filename, 'a') as file:
                 # Write account number in the second column
-                file.write(f"Customer ID: {customer_id}\tAccount Number: {account_number}\n")
+                file.write(f"Customer ID: {customer_id}\nAccount Number: {account_number}\n")
                 file.write(f"Name: {name}\nEmail: {email}\nDate of Birth: {date_of_birth}\nAccount Type: {account_type}\nPassword: {password}\nBalance: {balance}\n\n")
             
             # Print confirmation message
@@ -592,3 +592,4 @@ def register_customer():
     print_date_time() # function to print date and time
     save_customer_details(filename, name, email, date_of_birth, account_type, balance)
 
+register_customer()

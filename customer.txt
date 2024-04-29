@@ -25,11 +25,12 @@ Account Type: saving
 Password: abc@2001-2-3
 Balance: 100
 
-Customer ID: 1003	Account Number: 1000000003
-Name: Avinash
-Email: avinash4@gmail.com
-Date of Birth: 2004-02-03
-Account Type: saving
-Password: abc@2004-2-3
-Balance: 100
+Customer ID: 1003
+Account Number: 1000000003
+Name: Avanish
+Email: abanish@gmail.com
+Date of Birth: 2003-09-23
+Account Type: current
+Password: abc@2003-09-23
+Balance: 500
 
