@@ -1004,3 +1004,64 @@ def withdraw_money(account_number, withdrawn_amount):
     print("New balance: ", new_balance)
     print_date_time()
 
+# Function to print statement
+def generate_statement(account_number, start_date, end_date):
+    transaction_filename = TRANSACTION_FILE
+    
+    # Convert start_date and end_date strings to datetime objects
+    start_date = datetime.strptime(start_date, "%Y-%m-%d")
+    end_date = datetime.strptime(end_date, "%Y-%m-%d")
+    
+    total_deposits = 0
+    total_withdrawals = 0
+    
+    # Open transaction file and read its contents
+    with open(transaction_filename, 'r') as transaction_file:
+        transactions = transaction_file.read().split("\n\n")
+        
+        # Iterate over each transaction entry
+        for transaction in transactions:
+            # Skip empty lines
+            if not transaction.strip():
+                continue
+            
+            # Parse transaction entry
+            entry_lines = transaction.split("\n")
+            entry_data = {}
+            for line in entry_lines:
+                try:
+                    key, value = line.split(": ", 1)
+                    entry_data[key] = value
+                except ValueError:
+                    print("Error: Invalid transaction entry:", transaction)
+                    continue
+            
+            # Ensure entry has the required fields
+            if 'Account Number' not in entry_data or 'Transaction Type' not in entry_data \
+                or 'Amount' not in entry_data or 'Balance' not in entry_data \
+                or 'Date' not in entry_data or 'Time' not in entry_data:
+                print("Error: Invalid transaction entry:", transaction)
+                continue
+            
+            # Convert date string to datetime object
+            transaction_date = datetime.strptime(entry_data['Date'], "%Y-%m-%d")
+            
+            # Check if transaction belongs to the specified account number and date range
+            if entry_data['Account Number'] == str(account_number) and start_date <= transaction_date <= end_date:
+                # Print an empty line before printing the transaction
+                if total_deposits + total_withdrawals > 0 and entry_data['Account Number'] == str(account_number):
+                    print()
+                
+                # Print the transaction
+                print(transaction.strip())
+                
+                # Update total deposits and withdrawals
+                if entry_data['Transaction Type'] == "Deposit":
+                    total_deposits += int(entry_data['Amount'])
+                elif entry_data['Transaction Type'] == "Withdrawal":
+                    total_withdrawals += int(entry_data['Amount'])
+    
+    # Print total deposits and withdrawals for the specified duration
+    print("\nTotal Deposits:", total_deposits)
+    print("Total Withdrawals:", total_withdrawals)
+
