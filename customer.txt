@@ -14,7 +14,7 @@ Email: dipen12@gmail.com
 Date of Birth: 2003-01-23
 Account Type: current
 Password: dipen@12
-Balance: 900
+Balance: 734
 
 Customer ID: 1002
 Account Number: 1000000002
