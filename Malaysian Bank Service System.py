@@ -592,4 +592,120 @@ def register_customer():
     print_date_time() # function to print date and time
     save_customer_details(filename, name, email, date_of_birth, account_type, balance)
 
-register_customer()
+# Check if Customer ID or Account Number is in the file
+def customer_id_check(customer_id):
+    filename = CUSTOMER
+    # If the file doesn't exist, create it
+    if not os.path.exists(filename):
+        with open(filename, 'w'):
+            pass # Create an empty file if it doesn't exist
+    
+    # Open the file and check for existing usernames
+    with open (filename, 'r') as file:
+        for line in file:
+            # Check if the line contains a username
+            if line.strip().startswith("Customer ID: "):
+                # Extract the existing customer ID
+                existing_customer_id = line. split(": ")[1].strip()
+                # If the existing customer ID matches the given customer ID
+                if existing_customer_id == customer_id:
+                    return True # Customer ID available
+    # IF the customer ID is not found , it's unavailable
+    return False
+
+# Function to update Customer details
+def update_customer_details():
+    filename = CUSTOMER
+    print("\nUpdating Customer Details...\n")
+    
+    customer_id = input("Enter Customer ID of the customer to update: ")
+    if customer_id_check(customer_id):
+        # Prompt for new email (if needed)
+        while True:
+            new_email = input("Enter new email (leave blank to keep current): ")
+            if new_email == "":
+                break
+            elif not validate_email(new_email):
+                continue
+            elif not email_available(filename, new_email):
+                print("Error: Email already exists.")
+                continue
+            else:
+                break
+        
+        # Prompt for new account type (if needed)
+        while True:
+            new_account_type = input("Enter new account type (leave blank to keep current): ").lower()
+            if new_account_type == "":
+                break
+            elif new_account_type not in ["saving", "current"]:
+                print("Error: Invalid account type. Please enter 'Saving' or 'Current'.")
+                continue
+            else:
+                break
+        
+        # Prompt for new password (if needed)
+        while True:
+            new_password = input("Enter new password (leave blank to keep current): ")
+            if new_password == "":
+                break
+            elif len(new_password) < 8: # Minimum password length requirement
+                print("Error: Password must be at least 8 characters.")
+                continue
+            else:
+                break
+        
+        # Prompt for new balance (if needed)
+        while True:
+            new_balance = input("Enter new balance (leave blank to keep current): ")
+            if new_balance == "":
+                break
+            else:
+                break
+        
+        updated = False # Flag to track if any details were updated
+        
+        # Read existing customer details from the file
+        with open(filename, 'r') as file:
+            lines = file.readlines()
+        
+        # Open file in write mode to update customer details
+        with open(filename, 'w') as file:
+            i = 0
+            while i < len(lines):
+                # Check if the line contains the details of the customer with the given customer ID
+                if lines[i].strip().startswith("Customer ID: ") and lines[i].split(":")[1].strip() == str(customer_id):
+                    
+                    # Find the line numbers of relevant details
+                    email_index = i + 3
+                    account_type_index = i + 5
+                    password_index = i + 6
+                    balance_index = i + 7
+                    
+                    # Update the email if provided
+                    if new_email != "":
+                        lines[email_index] = f"Email: {new_email}\n"
+
+                    # Update the account type if provided
+                    if new_account_type != "":
+                        lines[account_type_index] = f"Account Type: {new_account_type}\n"
+
+                    # Update the password if provided
+                    if new_password != "":
+                        lines[password_index] = f"Password: {new_password}\n"
+
+                    # Update the balance if provided
+                    if new_balance != "":
+                        lines[balance_index] = f"Balance: {new_balance}\n"
+
+                    updated = True  # Set the flag to True indicating that details were updated
+                # Write the line back to the file
+                file.write(lines[i])
+                i += 1
+
+        if updated:
+            print("Customer details updated successfully.")
+    else:
+        print("Customer not found. No details were updated.")
+    print_date_time()
+
