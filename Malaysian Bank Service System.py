@@ -1226,7 +1226,7 @@ while True:
                             print("Invalid choice. Please try again.")
                             continue
                 else:
-                    print("Invalid username or password. Please try again.")
+                    print("\nInvalid username or password. Please try again.")
                     continue
             
             elif choice == '2':  # Admin staff login
@@ -1293,7 +1293,7 @@ while True:
                             print("Invalid choice. Please try again.")
                             continue
                 else:
-                    print("Invalid username or password. Please try again.")
+                    print("\nInvalid username or password. Please try again.")
 
     elif choice == '4':  # Exit the program
         print("Exiting the program...")
