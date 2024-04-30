@@ -1225,6 +1225,10 @@ while True:
                         else:
                             print("Invalid choice. Please try again.")
                             continue
+                else:
+                    print("Invalid username or password. Please try again.")
+                    continue
+            
             elif choice == '2':  # Admin staff login
                 print("\n\t\t============================")
                 print("\t\t===== ADMIN LOGIN MENU =====")
