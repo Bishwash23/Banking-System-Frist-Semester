@@ -1,3 +1,5 @@
+# DIPEN CHAPAI, BISHWASH BHATTARAI
+# NPI000266, NPI000261
 
 import os 
 from datetime import datetime
@@ -1226,10 +1228,6 @@ while True:
                         else:
                             print("Invalid choice. Please try again.")
                             continue
-                else:
-                    print("\nInvalid username or password. Please try again.")
-                    continue
-            
             elif choice == '2':  # Admin staff login
                 print("\n\t\t============================")
                 print("\t\t===== ADMIN LOGIN MENU =====")
@@ -1294,9 +1292,6 @@ while True:
                         else:
                             print("Invalid choice. Please try again.")
                             continue
-                else:
-                    print("\nInvalid username or password. Please try again.")
-
     elif choice == '4':  # Exit the program
         print("Exiting the program...")
         break
